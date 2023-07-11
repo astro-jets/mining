@@ -1,0 +1,84 @@
+<!-- Leaflet.js CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<!-- HTML markup -->
+<div class="container">
+  <div id="map" class="col-12" style="height: 100vh"></div>
+</div>
+
+<!-- <script>
+  // Frontend JavaScript code
+  const mapElement = document.getElementById("map");
+
+  // Create the Leaflet map
+  const map = L.map(mapElement).setView([0, 0], 2);
+
+  // Add the base map layer (e.g., OpenStreetMap)
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+  }).addTo(map);
+
+  // Fetch the geographical data from the backend API
+  fetch("/getGeographicalSites")
+    .then((response) => response.json())
+    .then((data) => {
+      // Process the fetched data and add markers to the map
+      data.forEach((resource) => {
+        const { siteName, location, description, deposits } = resource;
+        // Extract the latitude and longitude coordinates
+        const latitude = location.coordinates[1];
+        const longitude = location.coordinates[0];
+
+        // Create a marker and bind a popup with resource details
+        const marker = L.marker([latitude, longitude]).addTo(map);
+        marker.bindPopup(`<strong>${siteName}</strong>${deposits}`);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching geographical data:", error);
+    });
+</script> -->
+
+<script>
+  // Frontend JavaScript code
+  const mapElement = document.getElementById("map");
+
+  // Create the Leaflet map
+  const map = L.map(mapElement).setView([0, 0], 2);
+
+  // Add the satellite map layer (Esri World Imagery)
+  L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
+      attribution: "Tiles &copy; Esri",
+    }
+  ).addTo(map);
+
+  // Fetch the geographical data from the backend API
+  fetch("/getGeographicalSites")
+    .then((response) => response.json())
+    .then((data) => {
+      // Process the fetched data and add markers to the map
+      data.forEach((resource) => {
+        const { siteName, location, description, deposits } = resource;
+
+        // Extract the latitude and longitude coordinates
+        const latitude = location.coordinates[1];
+        const longitude = location.coordinates[0];
+
+        // Create a marker and bind a popup with resource details
+        const marker = L.marker([latitude, longitude]).addTo(map);
+        marker.bindPopup(
+          `<strong>${siteName}</strong><br>${description}<br>${deposits}`
+        );
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching geographical data:", error);
+    });
+</script>

@@ -1,0 +1,208 @@
+<link href="../../../dist/css/style.min.css" rel="stylesheet" />
+<!-- Leaflet.js CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<style>
+  .nav-link {
+    text-align: center;
+    background: #1cd5b5;
+    color: #fff;
+    border-radius: 30px !important;
+    font-size: 1.3rem;
+  }
+  .nav-tabs {
+    border: 0 !important;
+  }
+</style>
+<div class="contact-top">
+  <div class="contact-info">
+    <h3>Locate Mine Deposits & Minerals</h3>
+  </div>
+  <div class="card">
+    <ul class="nav nav-tabs mb-5" role="tablist">
+      <li class="nav-item col-md-4">
+        <a
+          class="nav-link active"
+          data-bs-toggle="tab"
+          href="#profile"
+          role="tab"
+          ><span class="hidden-sm-up"></span>
+          <span class="hidden-xs-down"
+            >Map View <i class="mdi mdi-google-maps"></i></span
+        ></a>
+      </li>
+      <li class="nav-item col-md-4">
+        <a class="nav-link" data-bs-toggle="tab" href="#home" role="tab"
+          ><span class="hidden-sm-up"></span>
+          <span class="hidden-xs-down"
+            >Search Deposit<i class="mdi mdi-magnify"></i></span
+        ></a>
+      </li>
+      <li class="nav-item col-md-4">
+        <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab"
+          ><span class="hidden-sm-up"></span>
+          <span class="hidden-xs-down">
+            Table View<i class="mdi mdi-table"></i></span
+        ></a>
+      </li>
+    </ul>
+    <div class="tab-content mt-5">
+      <div class="tab-pane" id="home" role="tabpanel">
+        <div class="container">
+          <div class="mail-grids">
+            <div class="col-md-10 contact-form">
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="text" id="searchInput" placeholder="Search..." />
+
+                  <div class="col-md-8 p-0" data-select2-id="11">
+                    <select
+                      id="filterSelect"
+                      class="select2 form-select shadow-none select2-hidden-accessible"
+                      style="width: 100%; height: 36px"
+                      data-select2-id="1"
+                      tabindex="-1"
+                      aria-hidden="true"
+                    >
+                      <option value="name">Name</option>
+                      <option value="location">Location</option>
+                      <option value="deposits">Deposits</option>
+                    </select>
+                  </div>
+
+                  <button id="searchButton" class="btn btn-success col-md-3">
+                    Search
+                  </button>
+                </div>
+                <div class="col-md-6 ml-3">
+                  <div id="searchResults" class="card"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane active" id="profile" role="tabpanel">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div id="map" style="height: 100vh; width: 100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane p-20" id="messages" role="tabpanel">
+        <p>The table will be here</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Frontend JavaScript code
+  const mapElement = document.getElementById("map");
+
+  // Create the Leaflet map with a closer zoom level
+  const map = L.map(mapElement).setView([-13.495, 34.4565], 6); // Adjust the center and zoom level
+
+  // Add the satellite map layer (Esri World Imagery)
+  L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
+      attribution: "Ministry of mining",
+    }
+  ).addTo(map);
+
+  // Fetch the geographical data from the backend API
+  fetch("/getGeographicalSites")
+    .then((response) => response.json())
+    .then((data) => {
+      // Process the fetched data and add markers to the map
+      data.forEach((resource) => {
+        const { siteName, location, description, deposits } = resource;
+
+        // Extract the latitude and longitude coordinates
+        const latitude = location.coordinates[1];
+        const longitude = location.coordinates[0];
+
+        // Create a marker and bind a popup with resource details
+        const marker = L.marker([latitude, longitude]).addTo(map);
+        marker.bindPopup(
+          `<strong>${siteName}</strong><br>${description}<br>${deposits}`
+        );
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching geographical data:", error);
+    });
+</script>
+
+<!-- <script>
+  // Check if the browser supports geolocation
+  if ("geolocation" in navigator) {
+    // Request the user's current location
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        // Use the latitude and longitude coordinates
+        console.log("Latitude:", latitude);
+        console.log("Longitude:", longitude);
+
+        // You can perform further operations with the obtained coordinates,
+        // such as sending them to the server or displaying them on a map.
+      },
+      (error) => {
+        console.error("Error getting location:", error.message);
+      }
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+  }
+</script> -->
+
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const filterSelect = document.getElementById("filterSelect");
+  const searchButton = document.getElementById("searchButton");
+  const searchResults = document.getElementById("searchResults");
+
+  searchButton.addEventListener("click", () => {
+    const query = searchInput.value;
+    const filter = filterSelect.value;
+
+    fetch(`/searchSite/${query}/${filter}`)
+      .then((response) => response.json())
+      .then((results) => {
+        // Clear previous search results
+        searchResults.innerHTML = "";
+
+        if (results.length === 0) {
+          searchResults.innerHTML = "No results found.";
+        } else {
+          results.forEach((result) => {
+            const { siteName, location, description, deposits } = result;
+            // Create a card or list item to display the search result
+            const resultItem = document.createElement("div");
+            resultItem.classList.add("result-item");
+            resultItem.innerHTML = `
+            <h3>${siteName}</h3>
+            <p><strong>Location:</strong> ${location.coordinates}</p>
+            <p><strong>Description:</strong> ${description}</p>
+            <p><strong>Deposits:</strong> ${deposits}</p>
+          `;
+            searchResults.appendChild(resultItem);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error searching:", error);
+      });
+  });
+</script>

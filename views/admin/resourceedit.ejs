@@ -1,0 +1,146 @@
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Edit New Location</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Resources
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <div class="card">
+        <form
+          id="geographical-form"
+          data-id="<%=resource.id%>"
+          class="form form-horizontal"
+          method="POST"
+        >
+          <div class="card-body">
+            <h4 class="card-title">Site Info</h4>
+            <div class="row" style="justify-content: space-between">
+              <div class="col-5">
+                <div class="form-group row">
+                  <label for="site-name">Site Name:</label>
+                  <input
+                    type="text"
+                    id="site-name"
+                    value="<%=resource.siteName%>"
+                    name="siteName"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-5">
+                <div class="form-group row">
+                  <label for="deposits">Mineral Deposits:</label>
+                  <input
+                    type="text"
+                    id="deposits"
+                    value="<%=resource.deposits%>"
+                    name="deposits"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="justify-content: space-between">
+              <div class="col-5">
+                <div class="form-group row">
+                  <label for="latitude">Latitude</label>
+                  <input
+                    type="text"
+                    id="latitude"
+                    value="<%=resource.location.coordinates[0]%>"
+                    name="latitude"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-5">
+                <div class="form-group row">
+                  <label for="longitude">Longitude:</label>
+                  <input
+                    type="text"
+                    id="longitude"
+                    value="<%=resource.location.coordinates[1]%>"
+                    name="longitude"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="description">Description:</label>
+              <textarea id="description" name="description" required>
+<%=resource.description%></textarea
+              >
+            </div>
+          </div>
+          <div class="border-top">
+            <div class="card-body">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("geographical-form");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formData = {
+      id: form.getAttribute("data-id"),
+      siteName: form.siteName.value,
+      description: form.description.value,
+      latitude: form.latitude.value,
+      longitude: form.longitude.value,
+      deposits: form.deposits.value,
+    };
+    console.log(formData);
+    const response = await fetch("/admin/resources/save", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      // Display a success message to the user
+      alert("Geographical data saved successfully");
+      form.reset();
+    } else {
+      console.log(response.error);
+      // Display an error message to the user
+      alert(response.error);
+    }
+  });
+</script>

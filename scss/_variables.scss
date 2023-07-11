@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display&display=swap');
+// $primary:#f50057;
+$primary:rgb(24, 207, 0);
+$secondary:rgba(17, 16, 16, 0.911);
+$primary-gradient:linear-gradient(45deg,$secondary,rgba(207, 0, 0, 0.719));
+$dark:#1a1a1a;
+$belleza: 'Oswald';
+$playfair: 'Montserrat';
+$font-primary: $belleza;
+p {
+  font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+h1,h2,h3,h4,h5 {
+    font-family: 'Raleway', sans-serif !important;
+}
+
+.button {
+    font-family: 'Poppins', sans-serif !important;
+}
+@import "bootstrap/bootstrap";

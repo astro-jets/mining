@@ -1,0 +1,134 @@
+<% const approved = data.companies.filter(c => c.status == "approved"); const
+declined = data.companies.filter(c => c.status == "declined"); const pending =
+data.companies.filter(c => c.status == "pending"); %>
+<div class="page-wrapper">
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Dashboard</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Library
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Column -->
+      <div class="col-md-6 col-lg-4 col-xlg-3">
+        <div class="card card-hover">
+          <div class="box bg-info text-center">
+            <h1 class="font-light text-white">
+              <i class="mdi mdi-briefcase"></i>
+              <%= approved.length%>
+            </h1>
+            <h6 class="text-white">Companies Registered</h6>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column -->
+      <div class="col-md-6 col-lg-4 col-xlg-3">
+        <div class="card card-hover">
+          <div class="box bg-danger text-center">
+            <h1 class="font-light text-white">
+              <i class="mdi mdi-flag-triangle"></i>
+              <%= pending.length%>
+            </h1>
+            <h6 class="text-white">Pending Registration</h6>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column -->
+      <div class="col-md-6 col-lg-4 col-xlg-3">
+        <div class="card card-hover">
+          <div class="box bg-info text-center">
+            <h1 class="font-light text-white">
+              <i class="mdi mdi-sitemap"></i>
+              <%= data.deposits.length%>
+            </h1>
+            <h6 class="text-white">Deposits Registered</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- Chart-1 -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="height: 50vh">
+            <h5 class="card-title mb-0">Overall Stats</h5>
+            <canvas id="myAreaChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mb-0">Resources Table</h5>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Deposit Name</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data.deposits.forEach(r => { %>
+              <tr>
+                <td><%=r.siteName%></td>
+                <td><%=r.location.coordinates[0]%></td>
+                <td><%=r.location.coordinates[1]%></td>
+                <td>
+                  <p><%=r.description%></p>
+                </td>
+                <td>
+                  <a
+                    href="/admin/resources/edit/<%=r._id%>"
+                    class="btn btn-primary"
+                  >
+                    Edit
+                  </a>
+                  <a
+                    id="deleteBtn"
+                    href="/admin/resources/delete/<%=r._id%>"
+                    class="btn btn-danger"
+                  >
+                    Delete
+                  </a>
+                </td>
+              </tr>
+              <% });%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
