@@ -1,3 +1,5 @@
+require('dotenv').config();
+const fs = require('fs')
 const Resource = require("../models/Resource");
 const Company = require("../models/Company");
 
@@ -15,6 +17,14 @@ module.exports.index = async (req, res) => {
     data:data
   });
 };
+// Reports
+module.exports.reports = async (req,res) =>{
+  try{
+    await getReports();
+  }catch(e){
+    res.status(500).send(e.message)
+  }
+}
 
 // Resources
 module.exports.readResources = async (req,res) =>{
@@ -141,31 +151,117 @@ module.exports.declinedApplications = async (req, res) => {
   catch(e){res.send(e.message);}
 }
 
-module.exports.approveApplication = async (req, res) => {
+// Approve an application
+module.exports.approveApplication = async (req,res) => {
   try{
-    const company = await Company.findById(req.params.id)
-    company.status = "approved";
-    company.save();
-    res.redirect("/admin/companies/applications");
+    const application = await Company.findById(req.params.id);
+    application.status = "approved";
+    await application.save();
+    const email = {
+      SecureToken : process.env.EMAIL_TOKEN,
+      To : application.email,
+      From : process.env.HOST_EMAIL,
+      Subject :"Approval of application",
+      Body : "We are glad to tell you that your application for mining has been approved by the ministry of mining."
+    }
+    res.status(200).send(email);
   }
-  catch(e){res.send(e.message);}
-}
-module.exports.declineApplication = async (req, res) => {
-  try{
-    const company = await Company.findById(req.params.id)
-    company.status = "declined";
-    company.save();
-    res.redirect("/admin/companies/applications");
-  }
-  catch(e){res.send(e.message);}
+  catch(e){res.satus(500).send(e.message);}
 }
 
-module.exports.updateCompany = async (req, res) => {}
-module.exports.saveCompanyUpdate = async (req, res) => {}
-module.exports.deleteCompany = async (req, res) => {}
+// Decline an application
+module.exports.declineApplication = async (req,res) => {
+  try{
+    const application = await Company.findById(req.params.id);
+    application.status = "declined";
+    await application.save();
+    const email = {
+      SecureToken : process.env.EMAIL_TOKEN,
+      To : application.email,
+      From : process.env.HOST_EMAIL,
+      Subject :"Rejection of application",
+      Body : "We regret to tell you that your application for mining has been rejected by the ministry of mining."
+    }
+    res.status(200).send(email);
+  }
+  catch(e){res.satus(500).send(e.message);}
+}
 
-module.exports.reports = async (req, res) => {
- res.render('admin/reports',{
-    layout:"layouts/admin",
-  });
-};
+// Function to send an email
+// async function sendmail(recipientEmail, subject, message) {
+//   try {
+//     // Create a transporter using SMTP details or other email provider configurations
+//     const transporter = nodemailer.createTransport({
+//       host: 'mail.google.com',
+//       auth: {
+//         user: 'mphatsomtogolo30@gmail.com',
+//         pass: 'tygapaintjets7@',
+//       },
+//     });
+
+//     // Define email options
+//     const mailOptions = {
+//       from: 'mphatsomtogolo30@gmail.com',
+//       to: recipientEmail,
+//       subject: subject,
+//       text: message,
+//     };
+
+//     // Send the email
+//     await transporter.sendMail(mailOptions);
+
+//     console.log('Email sent successfully!');
+//   } catch (error) {
+//     console.error('Error sending email:', error);
+//   }
+// };
+
+module.exports.reports = async (req,res) =>{
+  await getReports();
+  res.render("admin/reports",{layout:"layouts/admin"});
+}
+async function getReports()
+{
+  const companies = await Company.find({status:"approved"});
+  const minerals = await Resource.find();
+
+  console.log(minerals)
+  // Calculate the number of deposits per deposit
+  const gold = minerals.filter(d => d.deposits.includes("gold")|| d.deposits.includes("Gold"));
+  const uranium = minerals.filter(d => d.deposits.includes("uranium") || d.deposits.includes("Uranium"));
+  const coal = minerals.filter(d => d.deposits.includes("coal") || d.deposits.includes("Coal"));
+
+  // Calculate the number of companies per deposit
+  const companiesMiningGold = companies.filter( g => g.minerals.includes("gold") || g.minerals.includes("Gold"));
+  const companiesMiningCoal = companies.filter( g => g.minerals.includes("coal") || g.minerals.includes("Coal"));
+  const companiesMiningUranium = companies.filter( g => g.minerals.includes("uranium") || g.minerals.includes("Uranium"));
+
+  // Number of mineral deposits per deposit
+  const minrealsCount = {
+    gold : gold.length,
+    uranium : uranium.length,
+    coal : coal.length
+  }
+
+  // Number of companies per deposit
+  const companiesCount = {
+    gold : companiesMiningGold.length,
+    uranium : companiesMiningUranium.length,
+    coal : companiesMiningCoal.length
+  }
+
+  const report = {
+    minerals : minrealsCount,
+    companies: companiesCount
+  }
+  const data = JSON.stringify(report)
+  {
+    fs.writeFile('public/reports/reports.json',data, err=>{
+        if(err)
+        {
+            console.log(err)
+        }
+        else{console.log('success saved report')}
+    })
+  }
+}

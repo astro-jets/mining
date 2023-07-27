@@ -6,7 +6,7 @@ const Company = require('../models/Company')
 
 module.exports.index = async (req,res)=>{res.render("index")}
 module.exports.about = async (req,res)=>{res.render("about")}
-module.exports.services = async (req,res)=>{res.render("services")}
+module.exports.policies = async (req,res)=>{res.render("policies")}
 module.exports.contacts = async (req,res)=>{res.render("contacts")}
 module.exports.sites = async (req,res)=>{res.render("sites")}
 module.exports.gallery = async (req,res)=>{res.render("gallery")}

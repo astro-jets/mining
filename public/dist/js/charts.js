@@ -1,17 +1,4 @@
 
-function getLineChart() {
-  let http = new XMLHttpRequest()
-    http.open('get','/reports/dashboard.json',true)
-    http.send()
-    http.onload = function(){
-        if(this.readyState == 4 && this.status ==200)
-        {
-          let myData = JSON.parse(this.responseText)
-            plotLineGraph(myData)
-          }
-      }
-}
-
 function getAllReports()
 {
   let http = new XMLHttpRequest()
@@ -21,14 +8,13 @@ function getAllReports()
       if(this.readyState == 4 && this.status ==200)
       {
         let myData = JSON.parse(this.responseText)
-          earningsReport(myData.fees)
-          taxReport(myData.tax)
-          expensesReport(myData)
+          earningsReport(myData.minerals)
+          plotLineGraph(myData.companies)
         }
     }
 }
 
-getLineChart()
+
 getAllReports()
 
 // Area Chart
@@ -61,58 +47,25 @@ function plotLineGraph(data){
     var myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      labels: ["Gold","Coal","Uranium"],
       datasets: [
-        // Assets
-        {
-          label: "Assets Bought (MK) ",
-          lineTension: 0.3,
-          backgroundColor: "red",
-          borderColor: "orangered",
-          pointRadius: 3,
-          pointBackgroundColor: "yellow",
-          pointBorderColor: "orangered",
-          pointHoverRadius: 3,
-          pointHoverBackgroundColor: "orangered",
-          pointHoverBorderColor: "orangered",
-          pointHitRadius: 10,
-          pointBorderWidth: 2,
-          data: data.assets,
-        },
-        // Assets
-        {
-          label: "Fees",
-          lineTension: 0.3,
-          backgroundColor: "rgba(78, 115, 223, 0.05)",
-          borderColor: "rgba(78, 115, 223, 1)",
-          pointRadius: 3,
-          pointBackgroundColor: "rgba(78, 115, 223, 0.05)",
-          pointBorderColor: "rgba(78, 115, 223, 1)",
-          pointHoverRadius: 3,
-          pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-          pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-          pointHitRadius: 10,
-          pointBorderWidth: 2,
-          data: data.fees,
-        },
-        // Registrations
-        {
-          label: "Salaries",
-          lineTension: 0.3,
-          backgroundColor: "green",
-          borderColor: "greenyellow",
-          pointRadius: 3,
-          pointBackgroundColor: "greenyellow",
-          pointBorderColor: "green",
-          pointHoverRadius: 3,
-          pointHoverBackgroundColor: "greenyellow",
-          pointHoverBorderColor: "greenyellow",
-          pointHitRadius: 10,
-          pointBorderWidth: 2,
-          data: data.salary,
-        }
-
-    ],
+          {
+            label: "Registered Miners",
+            lineTension: 0.3,
+            backgroundColor: "red",
+            borderColor: "orangered",
+            pointRadius: 3,
+            pointBackgroundColor: "red",
+            pointBorderColor: "orangered",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "orangered",
+            pointHoverBorderColor: "orangered",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [data.gold,data.coal,data.uranium],
+          },
+          // Sales
+      ]
     },
     options: {
       maintainAspectRatio: false,
@@ -351,11 +304,11 @@ function earningsReport(data){
     var myLineChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["Gold", "Coal","Uranium"],
         datasets: [
           // Fees
           {
-            label: "Fees",
+            label: "Registered Deposits",
             lineTension: 0.3,
             backgroundColor: "rgba(78, 115, 223, 0.05)",
             borderColor: "rgba(78, 115, 223, 1)",
@@ -367,7 +320,7 @@ function earningsReport(data){
             pointHoverBorderColor: "rgba(78, 115, 223, 1)",
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: data,
+            data: [data.gold,data.coal,data.uranium],
           },
           // Sales
       ],

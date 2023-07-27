@@ -21,11 +21,11 @@ router.get('/resources/delete/:id', controller.deleteResources)
 router.get('/companies', controller.viewCompanies)
 router.get('/companies/applications', controller.companyApplications)
 router.get('/companies/declined', controller.declinedApplications)
-router.get('/companies/approve/:id', controller.approveApplication)
+router.put('/companies/approve/:id', controller.approveApplication)
 router.get('/companies/decline/:id', controller.declineApplication)
-router.get('/company/edit/:id', controller.updateCompany)
-router.put('/company/save', controller.saveCompanyUpdate)
-router.get('/company/delete/:id', controller.deleteCompany)
+// router.get('/company/edit/:id', controller.updateCompany)
+// router.put('/company/save', controller.saveCompanyUpdate)
+// router.get('/company/delete/:id', controller.deleteCompany)
 // Companies
 
 // Reports
