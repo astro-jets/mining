@@ -13,5 +13,6 @@ router.post('/register',controller.registerCompany);
 router.get('/map',controller.viewMap);
 router.get('/getGeographicalSites', controller.getGeographicalSites)
 router.get('/searchSite/:query/:filter',controller.searchSite);
+router.post('/message',controller.sendMessage);
 
 module.exports = router;

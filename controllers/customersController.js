@@ -2,6 +2,7 @@
 const imageMimeTypes = ['image/jpeg','image/png','image/ico']
 const Resource = require('../models/Resource') 
 const Company = require('../models/Company') 
+const Message = require('../models/Message') 
 
 
 module.exports.index = async (req,res)=>{res.render("index")}
@@ -56,5 +57,31 @@ module.exports.registerCompany = async (req, res) => {
     res.redirect("/register");
   }
   catch(e){res.send(e.message);}
+}
+
+// Send message
+module.exports.sendMessage = async (req,res) => {
+  const thread = {
+      timestamp:Date.now(),
+      message: req.body.message,
+      from:'user',
+      status:'unread'
+  };
+  const email = req.body.email;
+  try{
+    const message = await Message.findOne({email:email});
+    // console.log(message.user)
+    if (message)
+    {
+      console.log(JSON.stringify(message.thread))
+      message.thread.push(thread);
+      await message.save();
+    }else{
+      const newMessage = {email,thread};
+      await Message.create(newMessage);
+    }
+  }catch(err){
+      res.send(err.message)
+  }
 }
 

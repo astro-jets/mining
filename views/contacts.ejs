@@ -38,11 +38,11 @@
         </p>
       </div>
       <div class="col-md-6 contact-form">
-        <form>
-          <input type="text" placeholder="Name" required="" />
-          <input type="text" placeholder="Email" required="" />
-          <input type="text" placeholder="Subject" required="" />
-          <textarea placeholder="Message" required=""></textarea>
+        <form action="/message" method="POST">
+          <input type="text" name="id" value="1" required="" />
+          <input type="text" name="email" required="" />
+          <!-- <input type="text" placeholder="Subject" required="" /> -->
+          <textarea placeholder="Message" name="message"></textarea>
           <input type="submit" value="SEND" />
         </form>
       </div>

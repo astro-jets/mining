@@ -2,6 +2,8 @@ require('dotenv').config();
 const fs = require('fs')
 const Resource = require("../models/Resource");
 const Company = require("../models/Company");
+const Message = require("../models/Message");
+const moment = require('moment');
 
 module.exports.index = async (req, res) => {
   const deposits = await Resource.find();
@@ -17,6 +19,58 @@ module.exports.index = async (req, res) => {
     data:data
   });
 };
+
+// Messages
+module.exports.messages = async (req, res) => {
+  try{
+        const messages = await Message.find();
+        const unread = []
+        const all = []
+        for (let i = 0; i < messages.length; i++) {
+            const message = messages[i];
+            // const user = await User.findById(message.user)
+            const lastThread = message.thread.length - 1
+            all.push({
+                id:message._id,
+                name:"Mphatso",
+                // avatar:user.avatarPath,
+                // title:message.thread[lastThread].message,
+                date: moment(Date.now()).calendar()
+            })
+            if(message.thread[lastThread].status == 'unread' && message.thread[lastThread].from == 'user')
+            {
+                unread.push({
+                id:message._id,
+                name:"Mphatso",
+                // avatar:user.avatarPath,
+                // title:message.thread[lastThread].message,
+                date: moment(Date.now()).calendar()
+            })
+            }
+        }
+
+        res.render('admin/messages',{
+            all:all,
+            unread:unread,
+            layout:'layouts/admin'
+        })
+    }
+    catch(err){
+        console.log(err.message)
+    }
+}
+
+module.exports.messageSingle = async (req, res) => {
+  try{
+    const message = await Message.findById(req.params.id);
+    res.render("admin/messageSingle",{
+      layout:"layouts/admin",
+      message
+    });
+  }
+  catch(e){res.send(e.message)}
+}
+
 // Reports
 module.exports.reports = async (req,res) =>{
   try{

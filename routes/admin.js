@@ -28,6 +28,11 @@ router.get('/companies/decline/:id', controller.declineApplication)
 // router.get('/company/delete/:id', controller.deleteCompany)
 // Companies
 
+//Messages
+router.get('/messages/', controller.messages)
+router.get('/messages/:id', controller.messageSingle)
+// Messages
+
 // Reports
 router.get('/reports', controller.reports)
 // Reports

@@ -5,13 +5,13 @@
   <div class="page-breadcrumb">
     <div class="row">
       <div class="col-12 d-flex no-block align-items-center">
-        <h4 class="page-title">Dashboard</h4>
+        <h4 class="page-title">Messages</h4>
         <div class="ms-auto text-end">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="/admin">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">
-                Library
+                Messages
               </li>
             </ol>
           </nav>
@@ -24,5 +24,109 @@
 
   <!-- Container fluid  -->
   <!-- ============================================================== -->
-  <div class="container-fluid"></div>
+  <div class="container-fluid">
+    <div class="col-12">
+      <div class="card">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              data-bs-toggle="tab"
+              href="#home"
+              role="tab"
+              ><span class="hidden-sm-up"></span>
+              <span class="hidden-xs-down">Inbox</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab"
+              ><span class="hidden-sm-up"></span>
+              <span class="hidden-xs-down">All Messages</span></a
+            >
+          </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content tabcontent-border">
+          <div class="tab-pane p-20 active" id="home" role="tabpanel">
+            <div class="col-12">
+              <% unread.forEach(m => { %>
+              <!-- Message -->
+              <a href="/admin/messages/<%=m.id%>" class="link border-top">
+                <div class="d-flex no-block align-items-center p-10">
+                  <span
+                    class="btn btn-success btn-circle d-flex align-items-center justify-content-center"
+                    ><i class="mdi mdi-calendar text-white fs-4"></i
+                  ></span>
+                  <div class="ms-2">
+                    <h5 class="mb-0"><%=m.name%></h5>
+                    <span class="mail-desc">Just a reminder that event</span>
+                  </div>
+                </div>
+              </a>
+              <% }); %>
+            </div>
+          </div>
+          <div class="tab-pane p-20" id="profile" role="tabpanel">
+            <div class="col-12">
+              <!-- Message -->
+              <a href="javascript:void(0)" class="link border-top">
+                <div class="d-flex no-block align-items-center p-10">
+                  <span
+                    class="btn btn-success btn-circle d-flex align-items-center justify-content-center"
+                    ><i class="mdi mdi-calendar text-white fs-4"></i
+                  ></span>
+                  <div class="ms-2">
+                    <h5 class="mb-0">Event today</h5>
+                    <span class="mail-desc">Just a reminder that event</span>
+                  </div>
+                </div>
+              </a>
+              <!-- Message -->
+              <a href="javascript:void(0)" class="link border-top">
+                <div class="d-flex no-block align-items-center p-10">
+                  <span
+                    class="btn btn-info btn-circle d-flex align-items-center justify-content-center"
+                    ><i class="mdi mdi-settings fs-4"></i
+                  ></span>
+                  <div class="ms-2">
+                    <h5 class="mb-0">Settings</h5>
+                    <span class="mail-desc"
+                      >You can customize this template</span
+                    >
+                  </div>
+                </div>
+              </a>
+              <!-- Message -->
+              <a href="javascript:void(0)" class="link border-top">
+                <div class="d-flex no-block align-items-center p-10">
+                  <span
+                    class="btn btn-primary btn-circle d-flex align-items-center justify-content-center"
+                    ><i class="mdi mdi-account fs-4"></i
+                  ></span>
+                  <div class="ms-2">
+                    <h5 class="mb-0">Pavan kumar</h5>
+                    <span class="mail-desc">Just see the my admin!</span>
+                  </div>
+                </div>
+              </a>
+              <!-- Message -->
+              <a href="javascript:void(0)" class="link border-top">
+                <div class="d-flex no-block align-items-center p-10">
+                  <span
+                    class="btn btn-danger btn-circle d-flex align-items-center justify-content-center"
+                    ><i class="mdi mdi-link fs-4"></i
+                  ></span>
+                  <div class="ms-2">
+                    <h5 class="mb-0">Luanch Admin</h5>
+                    <span class="mail-desc">Just see the my new admin!</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

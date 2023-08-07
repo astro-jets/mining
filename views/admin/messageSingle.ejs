@@ -1,0 +1,102 @@
+<div class="page-wrapper">
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Messages</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Messages
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+  <div class="container-fluid">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title"><%=message.email%></h4>
+          <div
+            class="chat-box scrollable ps-container ps-theme-default ps-active-y"
+            style="height: 475px"
+            data-ps-id="23faece8-861b-3c67-68d2-9a14d10c34e0"
+          >
+            <!--chat Row -->
+            <ul class="chat-list">
+              <% message.thread.forEach(m => { %> <% if(m.from === "user") { %>
+              <% if(m.from === "user") {%>
+              <!-- Customer Message -->
+              <li class="chat-item">
+                <div class="chat-content">
+                  <div class="box bg-light-info"><%=m.message %></div>
+                </div>
+              </li>
+
+              <% }}if(m.from === "admin") {%>
+              <!--chat Row -->
+              <li class="odd chat-item">
+                <div class="chat-content">
+                  <div class="box bg-light-inverse">
+                    I would love to join the team.
+                  </div>
+                  <br />
+                </div>
+              </li>
+              <% }}) %>
+            </ul>
+            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px">
+              <div
+                class="ps-scrollbar-x"
+                tabindex="0"
+                style="left: 0px; width: 0px"
+              ></div>
+            </div>
+            <div
+              class="ps-scrollbar-y-rail"
+              style="top: 0px; height: 475px; right: 3px"
+            >
+              <div
+                class="ps-scrollbar-y"
+                tabindex="0"
+                style="top: 0px; height: 443px"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-top">
+          <div class="row">
+            <div class="col-9">
+              <div class="input-field mt-0 mb-0">
+                <textarea
+                  id="textarea1"
+                  placeholder="Type and enter"
+                  class="form-control border-0"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-3">
+              <a
+                class="btn-circle btn-lg btn-cyan float-end text-white"
+                href="javascript:void(0)"
+                ><i class="mdi mdi-send fs-3"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
