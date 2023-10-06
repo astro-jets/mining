@@ -1,0 +1,519 @@
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 d-flex no-block align-items-center">
+      <h4 class="page-title">One Acre Fund</h4>
+      <div class="ms-auto text-end">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+  <div class="col-12">
+    <div class="card">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            <span class="hidden-sm-up"></span>
+            <span class="hidden-xs-down">Home</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            data-bs-toggle="tab"
+            href="#home"
+            role="tab"
+            ><span class="hidden-sm-up"></span>
+            <span class="hidden-xs-down">Profile</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab"
+            ><span class="hidden-sm-up"></span>
+            <span class="hidden-xs-down">Messages</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#company" role="tab"
+            ><span class="hidden-sm-up"></span>
+            <span class="hidden-xs-down">New Company</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            data-bs-toggle="tab"
+            href="#notifications"
+            role="tab"
+            ><span class="hidden-sm-up"></span>
+            <span class="hidden-xs-down">Notifications</span></a
+          >
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content tabcontent-border">
+        <!-- Profile page -->
+        <div class="tab-pane p-20 active" id="home" role="tabpanel">
+          <div class="container-fluid">
+            <div class="row profile-content">
+              <div
+                class="col-12 col-md-12 col-lg-4"
+                style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)"
+              >
+                <div class="iq-card">
+                  <div class="iq-card-body profile-page">
+                    <div class="profile-header">
+                      <div class="cover-container text-center">
+                        <img
+                          src="../assets/images/users/2.png"
+                          alt="profile-bg"
+                          class="rounded-circle img-fluid"
+                        />
+                        <div class="profile-detail mt-3">
+                          <h3><%=user.username%></h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="iq-card">
+                  <div
+                    class="iq-card-header d-flex justify-content-between align-items-center mb-0"
+                  >
+                    <div class="iq-header-title">
+                      <h4 class="card-title mb-3">Personal Details</h4>
+                    </div>
+                  </div>
+                  <div class="iq-card-body">
+                    <ul class="list-inline p-0 mb-0">
+                      <li>
+                        <div
+                          class="d-flex align-items-center justify-content-between mb-3"
+                        >
+                          <h6><%=user.email%></h6>
+                          <div
+                            class="iq-progress-bar-linear d-inline-block mt-1 w-50"
+                          >
+                            <div class="iq-progress-bar iq-bg-danger">
+                              <span
+                                class="bg-danger"
+                                data-percent="50"
+                                style="transition: width 2s ease 0s"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          class="d-flex align-items-center justify-content-between mb-3"
+                        >
+                          <h6><%=user.phone%></h6>
+                          <div
+                            class="iq-progress-bar-linear d-inline-block mt-1 w-50"
+                          >
+                            <div class="iq-progress-bar iq-bg-info">
+                              <span
+                                class="bg-info"
+                                data-percent="65"
+                                style="transition: width 2s ease 0s"
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9 col-md-9 col-lg-7" style="margin-left: auto">
+                <div class="iq-card">
+                  <div class="iq-card-body profile-page">
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title col-8">Your Companies</h4>
+                        </div>
+                        <div
+                          class="comment-widgets scrollable ps-container ps-theme-default"
+                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3)"
+                          data-ps-id="1e279242-9c29-34bf-e2d5-e826283112fa"
+                        >
+                          <% companies.forEach(c => { %>
+                          <!-- Comment Row -->
+                          <div class="d-flex flex-row comment-row mt-0">
+                            <div class="p-2">
+                              <img
+                                src="../assets/images/users/1.jpg"
+                                alt="user"
+                                width="50"
+                                class="rounded-circle"
+                              />
+                            </div>
+                            <div class="comment-text w-100">
+                              <h6 class="font-medium"><%=c.name %></h6>
+                              <span class="mb-3 d-block"
+                                ><%=c.description %></span
+                              >
+                              <span class="mb-3 d-block"
+                                >Registration Status: <%=c.status %></span
+                              >
+                              <div class="comment-footer">
+                                <span class="text-muted float-end"
+                                  ><%=c.date%></span
+                                >
+                                <button
+                                  type="button"
+                                  class="btn btn-cyan btn-sm text-white"
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  type="button"
+                                  class="btn btn-danger btn-sm text-white"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <% }); %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Messages -->
+        <div class="tab-pane p-20" id="profile" role="tabpanel">
+          <div class="col-12">
+            <div class="card">
+              <% if(message){%>
+              <div class="card-body">
+                <h4 class="card-title"><%=message.email%></h4>
+                <div
+                  class="chat-box scrollable ps-container ps-theme-default ps-active-y"
+                  style="height: 475px"
+                  data-ps-id="23faece8-861b-3c67-68d2-9a14d10c34e0"
+                >
+                  <!--chat Row -->
+                  <ul class="chat-list">
+                    <% message.thread?.forEach(m => { %> <% if(m.from ===
+                    "admin") {%>
+                    <!-- Customer Message -->
+                    <li class="chat-item">
+                      <div class="chat-content">
+                        <div class="box bg-light-info"><%=m.message %></div>
+                      </div>
+                      <div class="chat-time"><%=m.date%></div>
+                    </li>
+
+                    <% }if(m.from === "user") {%>
+                    <!--chat Row -->
+                    <li class="odd chat-item">
+                      <div class="chat-content">
+                        <div class="box bg-light-inverse"><%=m.message %></div>
+                        <br />
+                      </div>
+                      <div class="chat-time"><%=m.date%></div>
+                    </li>
+                    <% }}) %>
+                  </ul>
+                  <div
+                    class="ps-scrollbar-x-rail"
+                    style="left: 0px; bottom: 0px"
+                  >
+                    <div
+                      class="ps-scrollbar-x"
+                      tabindex="0"
+                      style="left: 0px; width: 0px"
+                    ></div>
+                  </div>
+                  <div
+                    class="ps-scrollbar-y-rail"
+                    style="top: 0px; height: 475px; right: 3px"
+                  >
+                    <div
+                      class="ps-scrollbar-y"
+                      tabindex="0"
+                      style="top: 0px; height: 443px"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <%}%>
+              <form class="card-body border-top" action="message" method="post">
+                <div class="row">
+                  <div class="col-9">
+                    <div class="input-field mt-0 mb-0">
+                      <textarea
+                        id="textarea1"
+                        placeholder="Type and enter"
+                        name="message"
+                        class="form-control border-0"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <button
+                      type="submit"
+                      class="btn-circle btn-lg btn-cyan float-end text-white"
+                    >
+                      <i class="mdi mdi-send fs-3"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Create Company -->
+        <div class="tab-pane p-20" id="company" role="tabpanel">
+          <div class="card">
+            <form class="form-horizontal" method="post" action="/register">
+              <div class="card-body">
+                <h4 class="card-title">Company Details Info</h4>
+                <div class="col-12">
+                  <div class="row">
+                    <div class="form-group col-6">
+                      <label
+                        for="fname"
+                        class="col-sm-3 text-start control-label col-form-label"
+                        >Company Name</label
+                      >
+                      <div class="col-sm-9">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="name"
+                          id="fname"
+                          placeholder="First Name Here"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group col-6">
+                      <label
+                        for="lname"
+                        class="col-sm-3 text-start control-label col-form-label"
+                        >Location</label
+                      >
+                      <div class="col-sm-9">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="lname"
+                          name="location"
+                          placeholder="Location"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-6">
+                      <label
+                        for="fname"
+                        class="col-sm-3 text-start control-label col-form-label"
+                        >Company Email</label
+                      >
+                      <div class="col-sm-9">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="email"
+                          id="fname"
+                          placeholder="Email"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group col-6">
+                      <label
+                        for="lname"
+                        class="col-sm-3 text-start control-label col-form-label"
+                        >Company Phone</label
+                      >
+                      <div class="col-sm-9">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="lname"
+                          name="phone"
+                          placeholder="Location"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3">Mineral Deposits</label>
+                    <div class="row">
+                      <div class="form-group col-3">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="customControlAutosizing1"
+                          name="minerals"
+                          value="uranium"
+                        />
+                        <label
+                          class="form-check-label mb-0"
+                          for="customControlAutosizing1"
+                          >Uranium</label
+                        >
+                      </div>
+                      <div class="form-group col-3">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="customControlAutosizing2"
+                          name="minerals"
+                          value="coal"
+                        />
+                        <label
+                          class="form-check-label mb-0"
+                          for="customControlAutosizing2"
+                          >Coal</label
+                        >
+                      </div>
+                      <div class="form-group col-3">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="customControlAutosizing3"
+                          name="minerals"
+                          value="diamonds"
+                        />
+                        <label
+                          class="form-check-label mb-0"
+                          for="customControlAutosizing3"
+                          >Diamonds</label
+                        >
+                      </div>
+                      <div class="form-group col-3">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="customControlAutosizing4"
+                          name="minerals"
+                          value="gold"
+                        />
+                        <label
+                          class="form-check-label mb-0"
+                          for="customControlAutosizing4"
+                          >Gold</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-12">
+                    <label
+                      for="cono1"
+                      class="col-sm-3 text-start control-label col-form-label"
+                      >Company Description</label
+                    >
+                    <div class="col-sm-9">
+                      <textarea
+                        name="description"
+                        id="cono1"
+                        cols="155"
+                        rows="10"
+                        placeholder="Enter Company details"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="border-top">
+                <div class="card-body text-center">
+                  <button type="submit" class="btn btn-lg btn-primary col-6">
+                    Register
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- Notifications -->
+        <div class="tab-pane p-20" id="notifications" role="tabpanel">
+          <ul class="list-style-none">
+            <li>
+              <div class="">
+                <!-- Message -->
+                <a href="javascript:void(0)" class="link border-top">
+                  <div class="d-flex no-block align-items-center p-10">
+                    <span
+                      class="btn btn-success btn-circle d-flex align-items-center justify-content-center"
+                      ><i class="mdi mdi-calendar text-white fs-4"></i
+                    ></span>
+                    <div class="ms-2">
+                      <h5 class="mb-0">Event today</h5>
+                      <span class="mail-desc">Just a reminder that event</span>
+                    </div>
+                  </div>
+                </a>
+                <!-- Message -->
+                <a href="javascript:void(0)" class="link border-top">
+                  <div class="d-flex no-block align-items-center p-10">
+                    <span
+                      class="btn btn-info btn-circle d-flex align-items-center justify-content-center"
+                      ><i class="mdi mdi-settings fs-4"></i
+                    ></span>
+                    <div class="ms-2">
+                      <h5 class="mb-0">Settings</h5>
+                      <span class="mail-desc"
+                        >You can customize this template</span
+                      >
+                    </div>
+                  </div>
+                </a>
+                <!-- Message -->
+                <a href="javascript:void(0)" class="link border-top">
+                  <div class="d-flex no-block align-items-center p-10">
+                    <span
+                      class="btn btn-primary btn-circle d-flex align-items-center justify-content-center"
+                      ><i class="mdi mdi-account fs-4"></i
+                    ></span>
+                    <div class="ms-2">
+                      <h5 class="mb-0">Pavan kumar</h5>
+                      <span class="mail-desc">Just see the my admin!</span>
+                    </div>
+                  </div>
+                </a>
+                <!-- Message -->
+                <a href="javascript:void(0)" class="link border-top">
+                  <div class="d-flex no-block align-items-center p-10">
+                    <span
+                      class="btn btn-danger btn-circle d-flex align-items-center justify-content-center"
+                      ><i class="mdi mdi-link fs-4"></i
+                    ></span>
+                    <div class="ms-2">
+                      <h5 class="mb-0">Luanch Admin</h5>
+                      <span class="mail-desc">Just see the my new admin!</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

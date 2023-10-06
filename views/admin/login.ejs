@@ -1,0 +1,82 @@
+<div
+  class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-light"
+  style="height: 80vh"
+>
+  <div class="auth-box bg-light">
+    <div id="loginform">
+      <div class="text-center pt-3 pb-3">
+        <span class="db"
+          ><img
+            style="object-fit: cover; width: 15%; height: 15%"
+            src="../images/logo-icon.png"
+            alt="logo"
+        /></span>
+        <h1>Ministry Of Mining</h1>
+      </div>
+      <!-- Form -->
+      <form
+        class="form-horizontal mt-3"
+        id="loginform"
+        method="post"
+        action="/admin/logIn"
+      >
+        <div class="row pb-4">
+          <div
+            class="col-12"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <div class="col-5">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span
+                    class="input-group-text bg-danger text-white h-100"
+                    id="basic-addon1"
+                    ><i class="mdi mdi-gmail fs-4"></i
+                  ></span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  placeholder="Email"
+                  aria-label="Email"
+                  name="email"
+                  aria-describedby="basic-addon1"
+                  required=""
+                />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span
+                    class="input-group-text bg-success text-white h-100"
+                    id="basic-addon2"
+                    ><i class="mdi mdi-lock fs-4"></i
+                  ></span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  placeholder="Password"
+                  aria-label="Password"
+                  name="password"
+                  aria-describedby="basic-addon1"
+                  required=""
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn-lg col-12 btn-success text-light"
+              >
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

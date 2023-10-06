@@ -27,6 +27,7 @@
   <div class="container-fluid">
     <div class="col-12">
       <div class="card">
+        <% if(message){%>
         <div class="card-body">
           <h4 class="card-title"><%=message.email%></h4>
           <div
@@ -36,8 +37,7 @@
           >
             <!--chat Row -->
             <ul class="chat-list">
-              <% message.thread.forEach(m => { %> <% if(m.from === "user") { %>
-              <% if(m.from === "user") {%>
+              <% message.thread.forEach(m => { %> <% if(m.from === "user") {%>
               <!-- Customer Message -->
               <li class="chat-item">
                 <div class="chat-content">
@@ -45,15 +45,14 @@
                 </div>
               </li>
 
-              <% }}if(m.from === "admin") {%>
+              <% }if(m.from === "admin") {%>
               <!--chat Row -->
               <li class="odd chat-item">
                 <div class="chat-content">
-                  <div class="box bg-light-inverse">
-                    I would love to join the team.
-                  </div>
+                  <div class="box bg-light-inverse"><%=m.message %></div>
                   <br />
                 </div>
+                <div class="chat-time"><%=m.date%></div>
               </li>
               <% }}) %>
             </ul>
@@ -76,26 +75,33 @@
             </div>
           </div>
         </div>
-        <div class="card-body border-top">
+        <%}%>
+        <form
+          class="card-body border-top"
+          action="/admin/message/<%=message.id%>"
+          method="post"
+        >
           <div class="row">
             <div class="col-9">
               <div class="input-field mt-0 mb-0">
                 <textarea
                   id="textarea1"
                   placeholder="Type and enter"
+                  name="message"
                   class="form-control border-0"
                 ></textarea>
               </div>
             </div>
             <div class="col-3">
-              <a
+              <button
+                type="submit"
                 class="btn-circle btn-lg btn-cyan float-end text-white"
-                href="javascript:void(0)"
-                ><i class="mdi mdi-send fs-3"></i
-              ></a>
+              >
+                <i class="mdi mdi-send fs-3"></i>
+              </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>

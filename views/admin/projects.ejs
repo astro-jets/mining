@@ -1,0 +1,102 @@
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Projects</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Projects
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-0">Project Details</h5>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Created</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% projects.forEach(r => { %>
+            <tr>
+              <td><%=r.name%></td>
+              <td><%=r.description%></td>
+              <td>
+                <p><%=r.date%></p>
+              </td>
+              <td>
+                <a
+                  href="/admin/projects/edit/<%=r._id%>"
+                  class="btn btn-primary text-light"
+                >
+                  Edit
+                </a>
+                <a
+                  id="deleteBtn"
+                  href="/admin/projects/delete/<%=r._id%>"
+                  class="btn btn-danger"
+                >
+                  Delete
+                </a>
+              </td>
+            </tr>
+            <% });%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Assuming you have a button with the ID "deleteButton" in your HTML
+
+  const deleteButton = document.querySelectorAll("#deleteBtn");
+
+  deleteButton.forEach((dBtn) => {
+    dBtn.addEventListener("click", async () => {
+      const resourceId = dBtn.getAttribute("data-id");
+
+      try {
+        const response = await fetch(`/admin/resources/delete/${resourceId}`, {
+          method: "DELETE",
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data.message); // Display success message
+        } else {
+          const errorData = await response.json();
+          console.error(errorData.error); // Display error message
+        }
+      } catch (error) {
+        console.error("An error occurred while deleting the resource:", error);
+      }
+    });
+  });
+</script>

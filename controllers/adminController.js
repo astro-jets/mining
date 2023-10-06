@@ -1,9 +1,27 @@
+
+// Dependencies
 require('dotenv').config();
 const fs = require('fs')
+const moment = require('moment');
+const jwt = require('jsonwebtoken')   
+// Models
 const Resource = require("../models/Resource");
 const Company = require("../models/Company");
 const Message = require("../models/Message");
-const moment = require('moment');
+const Notification = require("../models/Notification");
+const Project = require("../models/Project");
+const User = require("../models/User");
+
+// Dependency Variables
+const maxAge = 3 * 24 * 60 * 60;
+
+
+// Create Token
+const createToken = (id)=>{
+    return jwt.sign({id},process.env.TOKEN_SECRET,{
+        expiresIn: maxAge
+    });
+}
 
 module.exports.index = async (req, res) => {
   const deposits = await Resource.find();
@@ -16,7 +34,8 @@ module.exports.index = async (req, res) => {
   
   res.render('admin/index',{
     layout:"layouts/admin",
-    data:data
+    data:data,
+    user:res.locals.user
   });
 };
 
@@ -34,7 +53,7 @@ module.exports.messages = async (req, res) => {
                 id:message._id,
                 name:"Mphatso",
                 // avatar:user.avatarPath,
-                // title:message.thread[lastThread].message,
+                title:message.thread[lastThread].message,
                 date: moment(Date.now()).calendar()
             })
             if(message.thread[lastThread].status == 'unread' && message.thread[lastThread].from == 'user')
@@ -43,7 +62,7 @@ module.exports.messages = async (req, res) => {
                 id:message._id,
                 name:"Mphatso",
                 // avatar:user.avatarPath,
-                // title:message.thread[lastThread].message,
+                title:message.thread[lastThread].message,
                 date: moment(Date.now()).calendar()
             })
             }
@@ -69,6 +88,27 @@ module.exports.messageSingle = async (req, res) => {
     });
   }
   catch(e){res.send(e.message)}
+}
+// Send message
+module.exports.sendMessage = async (req,res) => {
+  const thread = {
+      timestamp:Date.now(),
+      message: req.body.message,
+      from:'admin',
+      status:'unread'
+  };
+  const id = req.params.id;
+  try{
+    const message = await Message.findById(id);
+    if (message)
+    {
+      message.thread.push(thread);
+      await message.save();
+    }
+    res.redirect("/admin/messages")
+  }catch(err){
+      res.send(err.message)
+  }
 }
 
 // Reports
@@ -110,7 +150,6 @@ module.exports.saveResource = async (req, res) => {
   try {
     // Extract the form data from the request body
     const { siteName, latitude, longitude, description, deposits } = req.body;
-    console.log(req.body)
 
     // Validate and process the data as required
 
@@ -169,6 +208,35 @@ module.exports.deleteResources = async (req,res) =>{
   }
 };
 
+
+// Projects
+module.exports.newProject = async (req, res) => {res.render('admin/newProject',{layout:'layouts/admin'})}
+module.exports.viewProjects = async (req, res) => {
+  try{
+    const results = await Project.find();
+    const projects = results.map((r)=>(
+      {
+        name:r.name,
+        description:r.description,
+        date:moment(r.created).calendar()
+      }
+    ));
+    res.render('admin/projects',{layout:'layouts/admin',projects})
+  }catch(e){res.status(500).send(e.message)}
+}
+module.exports.saveProject = async (req, res) => {
+  const {name,description}= req.body;
+  console.log("Name => ",name,"Description => ",description)
+  try{
+    const project = new Project({name,description});
+
+    await project.save();
+    res.status(200).json("Project Saved Successfully");
+  }catch(e){res.status(500).send(e.message)}
+}
+
+// Projects
+
 // Company Routes
 // Approved Companies
 module.exports.viewCompanies = async (req, res) => {
@@ -211,14 +279,13 @@ module.exports.approveApplication = async (req,res) => {
     const application = await Company.findById(req.params.id);
     application.status = "approved";
     await application.save();
-    const email = {
-      SecureToken : process.env.EMAIL_TOKEN,
-      To : application.email,
-      From : process.env.HOST_EMAIL,
-      Subject :"Approval of application",
-      Body : "We are glad to tell you that your application for mining has been approved by the ministry of mining."
+    const notification = {
+      user: application.user,
+      message: `Your application to register ${application.name} has been approved.`,
+      type:"approved"
     }
-    res.status(200).send(email);
+    await Notification.create(notification)
+    res.status(200).send()
   }
   catch(e){res.satus(500).send(e.message);}
 }
@@ -274,12 +341,12 @@ module.exports.reports = async (req,res) =>{
   await getReports();
   res.render("admin/reports",{layout:"layouts/admin"});
 }
+
 async function getReports()
 {
   const companies = await Company.find({status:"approved"});
   const minerals = await Resource.find();
 
-  console.log(minerals)
   // Calculate the number of deposits per deposit
   const gold = minerals.filter(d => d.deposits.includes("gold")|| d.deposits.includes("Gold"));
   const uranium = minerals.filter(d => d.deposits.includes("uranium") || d.deposits.includes("Uranium"));
@@ -318,4 +385,45 @@ async function getReports()
         else{console.log('success saved report')}
     })
   }
+}
+
+module.exports.signUpPage = async (req,res) =>{
+  res.render("admin/signup",{layout:"layouts/adminAuth"});
+}
+module.exports.signUp = async (req,res) =>{
+  const userDetails = {
+        username:req.body.name,
+        email:req.body.email,
+        phone:req.body.phone,
+        password:req.body.password,
+        userType:'admin'
+  }
+  try{
+      const user = await User.create(userDetails)
+      const token = createToken(user._id);
+      res.cookie('jwt',token,{httpOnly:true,maxAge:maxAge*1000})
+      res.redirect('/admin')
+  }
+  catch(err)
+  {
+      console.log(err.message)
+  }
+}
+
+module.exports.logInPage = async (req,res) =>{
+  res.render("admin/login",{layout:"layouts/adminAuth"});
+}
+// LogIn Route
+module.exports.logIn = async (req,res)=>{
+    const{email,password} = req.body;
+    try{
+        const user = await User.login(email,password)
+        const token = createToken(user._id);
+        res.cookie('jwt',token,{httpOnly:true,maxAge:maxAge*1000})
+        res.redirect('/admin');
+    }
+    catch(err)
+    {
+        res.json(err.message)
+    }
 }

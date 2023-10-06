@@ -1,7 +1,30 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
+// Is adminstrator
 const requireAuth = (req,res,next)=>{
+    const token = req.cookies.jwt;
+    // Check if token exists and is valid
+    if(token)
+    {
+        jwt.verify(token,process.env.TOKEN_SECRET,async (err,decodedToken)=>{
+            if(err){
+                res.redirect('/admin/login')
+            }else{
+                let user = await User.findById(decodedToken.id)
+                if(user.userType === "admin"){next()}
+                else{res.redirect('/admin/login')}
+            }
+        })
+
+    }
+    else{
+        res.redirect('/admin/login')
+    }
+}
+
+// Is Customer
+const isCustomer = (req,res,next)=>{
     const token = req.cookies.jwt;
     // Check if token exists and is valid
     if(token)
@@ -40,4 +63,4 @@ const currentUser = (req,res,next)=>{
     }else{res.locals.user = null;next();}
 }
 
-module.exports = {requireAuth,currentUser}
+module.exports = {requireAuth,currentUser,isCustomer}

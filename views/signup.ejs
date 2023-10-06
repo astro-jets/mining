@@ -1,0 +1,171 @@
+<div
+  class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-light"
+  style="height: 80vh"
+>
+  <div class="auth-box bg-light">
+    <div id="loginform">
+      <div class="text-center pt-3 pb-3">
+        <span class="db"
+          ><img
+            style="object-fit: cover; width: 15%; height: 15%"
+            src="../images/logo-icon.png"
+            alt="logo"
+        /></span>
+        <h1>Ministry Of Mining</h1>
+        <p class="text-dark">sign up</p>
+      </div>
+      <!-- Form -->
+      <form
+        class="form-horizontal mt-3"
+        id="loginform"
+        action="/signup"
+        method="post"
+      >
+        <div
+          class="row pb-4 text-center"
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <div
+            class="col-10"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <div class="col-11">
+              <div class="row">
+                <div class="mb-3 col-6">
+                  <div class="row">
+                    <div class="col-1">
+                      <div class="input-group-prepend">
+                        <span
+                          class="input-group-text bg-danger text-white h-100"
+                          id="basic-addon1"
+                          style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          "
+                          ><i class="mdi mdi-account fs-4"></i
+                        ></span>
+                      </div>
+                    </div>
+                    <div class="col-10">
+                      <input
+                        type="text"
+                        class="form-control form-control-lg"
+                        placeholder="Full Name"
+                        aria-label="Full Name"
+                        name="name"
+                        aria-describedby="basic-addon1"
+                        required=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3 col-6">
+                  <div class="row">
+                    <div class="col-1">
+                      <span
+                        class="input-group-text bg-danger text-white h-100"
+                        id="basic-addon2"
+                        style="
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                        "
+                        ><i class="mdi mdi-phone fs-4"></i
+                      ></span>
+                    </div>
+                    <div class="col-11">
+                      <input
+                        type="text"
+                        class="form-control form-control-lg"
+                        placeholder="Phone"
+                        aria-label="Phone"
+                        name="phone"
+                        aria-describedby="basic-addon1"
+                        required=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="mb-3 col-6">
+                  <div class="row">
+                    <div class="col-1">
+                      <div class="input-group-prepend">
+                        <span
+                          class="input-group-text bg-danger text-white h-100"
+                          id="basic-addon1"
+                          style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          "
+                          ><i class="mdi mdi-gmail fs-4"></i
+                        ></span>
+                      </div>
+                    </div>
+                    <div class="col-10">
+                      <input
+                        type="text"
+                        class="form-control form-control-lg"
+                        placeholder="Email"
+                        aria-label="Email"
+                        name="email"
+                        aria-describedby="basic-addon1"
+                        required=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3 col-6">
+                  <div class="row">
+                    <div class="col-1">
+                      <span
+                        class="input-group-text bg-danger text-white h-100"
+                        id="basic-addon2"
+                        style="
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                        "
+                        ><i class="mdi mdi-lock fs-4"></i
+                      ></span>
+                    </div>
+                    <div class="col-11">
+                      <input
+                        type="text"
+                        class="form-control form-control-lg"
+                        placeholder="Password"
+                        aria-label="Password"
+                        name="password"
+                        aria-describedby="basic-addon1"
+                        required=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-lg col-12 btn-success text-light"
+              >
+                Signup
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

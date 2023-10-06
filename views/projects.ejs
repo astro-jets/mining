@@ -1,0 +1,19 @@
+<!-- services -->
+<div class="services">
+  <div class="services-top">
+    <div class="services-info">
+      <h3>Projects</h3>
+    </div>
+    <div class="container">
+      <div class="row">
+        <% projects.forEach(p => { %>
+        <div style="margin: 1rem 0; padding: 0 1rem; width: 80%">
+          <h3 class="text-primary"><%=p.name%></h3>
+          <p><%=p.description %></p>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- //services -->
